@@ -1079,7 +1079,67 @@
              .dropdown-menu a:hover { background: none; color: #fff; opacity: 0.8;}
         }
         /* --- End of Navbar-specific CSS --- */
+/* Mobile Navigation - Show dropdown items smaller */
+@media (max-width: 992px) {
+    /* Hide the "Více" text on mobile */
+    .dropdown-toggle {
+        display: none !important;
+    }
+    
+    /* Show dropdown menu items directly in navigation */
+    .dropdown-menu {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin-top: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* Style the dropdown menu items SMALLER than main nav items */
+    .dropdown-menu li {
+        margin: 15px 0 !important; /* Less margin than main items */
+        width: 100% !important;
+        text-align: center !important;
+    }
+    
+    .dropdown-menu a {
+        color: var(--text-on-dark) !important;
+        font-size: 1.2rem !important; /* SMALLER than main nav (1.5rem) */
+        text-decoration: none !important;
+        text-transform: uppercase !important;
+        font-family: var(--heading-font) !important;
+        letter-spacing: 0.08em !important; /* Less letter spacing */
+        font-weight: 400 !important; /* Lighter than main items (500) */
+        padding: 6px 0 !important; /* Less padding */
+        transition: color 0.3s ease !important;
+        display: block !important;
+        opacity: 0.9 !important; /* Slightly less prominent */
+        background: none !important;
+    }
+    
+    .dropdown-menu a:hover {
+        opacity: 0.7 !important;
+        background: none !important;
+        color: #fff !important;
+    }
+    
+    .dropdown-menu a.active {
+        border-bottom: 2px solid var(--text-on-dark) !important;
+    }
 
+    /* Ensure main nav items keep their larger size */
+    .nav-item:not(.dropdown) .nav-link {
+        font-size: 1.5rem !important;
+        font-weight: 500 !important;
+        margin: 20px 0 !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -2301,31 +2361,46 @@
             });
         }
         // --- Dropdown for mobile ---
-        const dropdownToggle = document.getElementById('dropdown-toggle');
-        const dropdownMenu = document.getElementById('dropdown-menu');
-        if (dropdownToggle && dropdownMenu) {
-            dropdownToggle.addEventListener('click', function(e) {
-                // Only activate on mobile (nav-menu is active)
-                if (window.innerWidth <= 992 || navMenu.classList.contains('active')) {
-                    e.preventDefault();
-                    dropdownMenu.classList.toggle('open');
-                }
-            });
-            // Close dropdown when any dropdown link is clicked (for better UX)
-            dropdownMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    dropdownMenu.classList.remove('open');
-                });
-            });
+        // --- Dropdown for mobile ---
+const dropdownToggle = document.getElementById('dropdown-toggle');
+const dropdownMenu = document.getElementById('dropdown-menu');
+if (dropdownToggle && dropdownMenu) {
+    dropdownToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Check if we're in mobile mode
+        if (window.innerWidth <= 992) {
+            // Toggle the dropdown
+            dropdownMenu.classList.toggle('open');
+            dropdownToggle.classList.toggle('open');
         }
-        // Close dropdown when nav menu is closed (mobile)
-        if (navToggle && navMenu && dropdownMenu) {
-            navToggle.addEventListener('click', () => {
-                if (!navMenu.classList.contains('active')) {
-                    dropdownMenu.classList.remove('open');
-                }
-            });
+    });
+
+    // Close dropdown when any dropdown link is clicked
+    dropdownMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            dropdownMenu.classList.remove('open');
+            dropdownToggle.classList.remove('open');
+            
+            // Also close the main mobile menu
+            if (navMenu && navToggle) {
+                navMenu.classList.remove('active');
+                navToggle.textContent = '☰';
+                document.body.style.overflow = '';
+            }
+        });
+    });
+}
+
+// Close dropdown when nav menu is closed
+if (navToggle && navMenu && dropdownMenu) {
+    navToggle.addEventListener('click', () => {
+        if (!navMenu.classList.contains('active')) {
+            dropdownMenu.classList.remove('open');
+            dropdownToggle.classList.remove('open');
         }
+    });
+}
     });
     </script>
 
