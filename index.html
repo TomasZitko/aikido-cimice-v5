@@ -1643,6 +1643,101 @@ body {
     }
 }
 
+
+/* Alternative approach: Show all menu items directly on mobile */
+@media (max-width: 992px) {
+            /* Hide the "Více" text on mobile */
+            .dropdown-toggle {
+                display: none !important;
+            }
+            
+            /* Show dropdown menu items directly in navigation */
+            .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                width: 100% !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                margin-top: 0 !important;
+                padding: 0 !important;
+                display: block !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+            
+            /* Style the menu items like regular nav items */
+            .dropdown-menu li {
+                margin: 20px 0 !important;
+                width: 100% !important;
+                text-align: center !important;
+            }
+            
+            .dropdown-menu a {
+    color: var(--text-on-dark) !important;
+    font-size: 1.2rem !important; /* Changed from 1.5rem to 1.2rem */
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    font-family: var(--heading-font) !important;
+    letter-spacing: 0.1em !important;
+    font-weight: 400 !important; /* Also made font-weight lighter: 400 instead of 500 */
+    padding: 8px 0 !important;
+    transition: color 0.3s ease !important;
+    display: block !important;
+}
+            
+            .dropdown-menu a:hover {
+                opacity: 0.7 !important;
+            }
+            
+            .dropdown-menu a.active {
+                border-bottom: 2px solid var(--text-on-dark) !important;
+            }
+        }
+
+        /* Keep desktop dropdown functionality */
+        @media (min-width: 993px) {
+            .dropdown-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: var(--primary-bg);
+                list-style: none;
+                padding: 10px 0;
+                margin-top: 15px;
+                border-radius: 5px;
+                box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+                width: 200px;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1100;
+            }
+            
+            .nav-item:hover .dropdown-menu {
+                display: block;
+                opacity: 1;
+                visibility: visible;
+                margin-top: 5px;
+            }
+            
+            .dropdown-menu a {
+                color: var(--text-primary);
+                padding: 10px 20px;
+                display: block;
+                text-decoration: none;
+                font-family: var(--body-font);
+                text-transform: none;
+                letter-spacing: 0.05em;
+                font-weight: 400;
+            }
+            
+            .dropdown-menu a:hover {
+                background-color: #000;
+                color: #fff;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1656,15 +1751,17 @@ body {
                     <li class="nav-item"><a href="index.html" class="nav-link active">Homepage</a></li>
                     <li class="nav-item"><a href="studovna.html" class="nav-link">Studovna</a></li>
                     <li class="nav-item"><a href="historie.html" class="nav-link">Historie</a></li>
+                    
+                    <!-- Desktop: Shows as dropdown, Mobile: Shows directly -->
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" id="dropdown-toggle">Více</a>
                         <ul class="dropdown-menu" id="dropdown-menu">
-                            <li><a href="#team">Tým</a></li>
-                            <li><a href="#pricing">Ceník</a></li>
-                            <li><a href="#gallery">Galerie</a></li>
-                            <li><a href="#downloads">Ke stažení</a></li>
-                            <li><a href="#faq">FAQ</a></li>
-                            <li><a href="#contact">Kontakt</a></li>
+                            <li><a href="#team" class="nav-link">Tým</a></li>
+                            <li><a href="#pricing" class="nav-link">Ceník</a></li>
+                            <li><a href="#gallery" class="nav-link">Galerie</a></li>
+                            <li><a href="#downloads" class="nav-link">Ke stažení</a></li>
+                            <li><a href="#faq" class="nav-link">FAQ</a></li>
+                            <li><a href="#contact" class="nav-link">Kontakt</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -2420,6 +2517,8 @@ body {
 
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
+
+        
     document.addEventListener('DOMContentLoaded', function() {
         // Init AOS
         AOS.init({
@@ -2697,6 +2796,8 @@ body {
             if (loadingScreen) loadingScreen.style.display = 'none';
         }
     })();
+
+    
     </script>
 </body>
 </html>
