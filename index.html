@@ -1295,31 +1295,126 @@
         .nav-toggle { display: none; }
 
         @media (max-width: 992px) {
-            .navbar { background: rgba(0,0,0,0.5); border-bottom: none; }
-            .navbar.scrolled { background: rgba(0,0,0,0.9); }
-            .nav-logo, .nav-link, .navbar.scrolled .nav-logo, .navbar.scrolled .nav-link {
+            /* Mobile Navbar Background */
+            .navbar { 
+                background: rgba(0,0,0,0.5); 
+                border-bottom: none; 
+            }
+            
+            .navbar.scrolled { 
+                background: rgba(0,0,0,0.9); 
+            }
+            
+            /* Mobile Text Colors */
+            .nav-logo, .nav-link, 
+            .navbar.scrolled .nav-logo, 
+            .navbar.scrolled .nav-link {
                 color: var(--text-on-dark);
             }
+            
+            .nav-link.active { 
+                border-bottom: 2px solid var(--text-on-dark); 
+            }
+            
+            /* Mobile Toggle Button */
             .nav-toggle {
-                display: block; background: none; border: none;
+                display: block; 
+                background: none; 
+                border: none;
                 color: var(--text-on-dark);
-                font-size: 2.5rem; cursor: pointer; z-index: 1001;
+                font-size: 2rem; /* Made button slightly smaller */
+                cursor: pointer; 
+                z-index: 1001;
+                padding: 5px 10px; /* Added padding for better click area */
             }
+            
+            /* Mobile Menu */
             .nav-menu {
-                display: none; position: fixed; top: 0; left: 0;
-                width: 100%; height: 100vh; background-color: var(--secondary-bg);
-                flex-direction: column; justify-content: center; align-items: center;
+                display: none; 
+                position: fixed; 
+                top: 0; 
+                left: 0;
+                width: 100%; 
+                height: 100vh; 
+                background-color: var(--secondary-bg);
+                flex-direction: column; 
+                justify-content: center; 
+                align-items: center;
+                padding-top: 60px; /* Add some space for the fixed toggle button */
+                box-sizing: border-box; /* Include padding in height calculation */
+                overflow-y: auto; /* Allow scrolling if content is long */
             }
-            .nav-menu.active { display: flex; }
-            .nav-item { margin: 20px 0; width: 100%; text-align: center; }
-            .nav-item:hover .dropdown-menu { display: none; }
+            
+            .nav-menu.active { 
+                display: flex; 
+            }
+            
+            .nav-item { 
+                margin: 15px 0; /* Slightly smaller margins for items */
+                width: 100%; 
+                text-align: center; 
+            }
+            
+            /* Mobile Dropdown Menu Styling */
             .dropdown-menu {
-                position: static; transform: none; width: 100%;
-                background: transparent; box-shadow: none;
-                margin-top: 15px; padding: 0; display: none;
+                position: static !important;
+                transform: none !important;
+                width: 100% !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                margin-top: 0 !important;
+                padding: 0 !important;
+                display: none; /* Hidden by default on mobile */
+                opacity: 1 !important;
+                visibility: visible !important;
             }
-            .dropdown-menu.open { display: block; }
-            .dropdown-menu a { color: #ccc; font-size: 1rem; padding: 8px 0; }
+            
+            .dropdown-menu.open { 
+                display: block; /* Show when 'open' class is applied */
+            }
+            
+            .dropdown-menu li {
+                margin: 10px 0 !important; /* Smaller margins for dropdown items */
+                width: 100% !important;
+                text-align: center !important;
+            }
+            
+            .dropdown-menu a {
+                color: #ccc !important; /* Lighter color for dropdown items */
+                font-size: 1rem !important; /* Slightly smaller font size */
+                padding: 5px 0 !important; /* Smaller padding */
+                text-decoration: none !important;
+                text-transform: capitalize !important; /* Changed to capitalize for a softer look */
+                font-family: var(--body-font) !important; /* Using body font for dropdown links */
+                letter-spacing: 0.05em !important; /* Reduced letter spacing */
+                font-weight: 300 !important; /* Lighter font weight */
+                transition: color 0.3s ease !important;
+                display: block !important;
+            }
+            
+            .dropdown-menu a:hover {
+                opacity: 0.8 !important; /* Slightly more opaque on hover */
+                color: var(--text-on-dark) !important; /* Highlight on hover */
+            }
+            
+            .dropdown-menu a.active {
+                border-bottom: 2px solid var(--text-on-dark) !important;
+            }
+
+            /* Style for the "Více" link itself on mobile */
+            .nav-item .dropdown-toggle {
+                display: block; /* Ensure it's always visible on mobile */
+                color: var(--text-on-dark) !important;
+                font-size: 1.2rem !important; /* Match regular nav links */
+                text-decoration: none !important;
+                text-transform: uppercase !important;
+                font-family: var(--heading-font) !important;
+                letter-spacing: 0.1em !important;
+                font-weight: 400 !important;
+                padding: 8px 0 !important;
+                transition: color 0.3s ease !important;
+                display: block !important;
+            }
         }
         /* === End Dedicated Navbar Styles === */
 
@@ -1748,7 +1843,7 @@ body {
                 <a href="index.html" class="nav-logo">Ronin Dojo</a>
                 <button class="nav-toggle" id="nav-toggle" aria-label="Menu">☰</button>
                 <ul class="nav-menu" id="nav-menu">
-                    <li class="nav-item"><a href="index.html" class="nav-link active">Homepage</a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Domov</a></li>
                     <li class="nav-item"><a href="studovna.html" class="nav-link">Studovna</a></li>
                     <li class="nav-item"><a href="historie.html" class="nav-link">Historie</a></li>
                     
@@ -2544,6 +2639,8 @@ body {
         const navbar = document.getElementById('navbar');
         const navToggle = document.getElementById('nav-toggle');
         const navMenu = document.getElementById('nav-menu');
+        const dropdownToggle = document.getElementById('dropdown-toggle');
+        const dropdownMenu = document.getElementById('dropdown-menu');
 
         // Scroll effect
         window.addEventListener('scroll', () => {
@@ -2562,21 +2659,31 @@ body {
                 navMenu.classList.toggle('active');
                 navToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
                 document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+
+                // If mobile menu is closed, ensure dropdown is also closed
+                if (!navMenu.classList.contains('active')) {
+                    if (dropdownMenu) {
+                        dropdownMenu.classList.remove('open');
+                    }
+                }
             });
 
-            // Close mobile menu on link click
-            navMenu.querySelectorAll('a').forEach(link => {
+            // Close mobile menu on standard nav link click (excluding dropdown toggle)
+            navMenu.querySelectorAll('.nav-link:not(.dropdown-toggle)').forEach(link => {
                 link.addEventListener('click', () => {
                     if (navMenu.classList.contains('active')) {
                         navMenu.classList.remove('active');
                         navToggle.textContent = '☰';
                         document.body.style.overflow = '';
+                        if (dropdownMenu) { // Also close dropdown if open
+                            dropdownMenu.classList.remove('open');
+                        }
                     }
                 });
             });
         }
         
-        // --- KEPT FROM ORIGINAL: Active link highlighting on scroll ---
+        // Active link highlighting on scroll
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-menu a.nav-link[href^="#"]');
 
@@ -2586,13 +2693,14 @@ body {
 
             sections.forEach(section => {
                 const sectionTop = section.offsetTop - offset;
-                if (window.scrollY >= sectionTop) {
+                // Check if scroll position is within the section
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + section.offsetHeight) {
                     currentSectionId = section.getAttribute('id');
                 }
             });
             
             // Do not highlight any link if we are above the first section
-            const firstSection = document.getElementById('about');
+            const firstSection = document.getElementById('about'); // Assuming 'about' is your first section
             if (firstSection && window.scrollY < firstSection.offsetTop - offset) {
                 currentSectionId = '';
             }
@@ -2604,6 +2712,7 @@ body {
                 }
             });
         };
+        
         window.addEventListener('scroll', activateNavLink);
         activateNavLink(); // Initial check
 
@@ -2745,30 +2854,28 @@ body {
             });
         });
 
-        // --- Mobile dropdown for 'Více' ---
-        const dropdownToggle = document.getElementById('dropdown-toggle');
-        const dropdownMenu = document.getElementById('dropdown-menu');
+        // Mobile dropdown functionality for "Více"
         if (dropdownToggle && dropdownMenu) {
             dropdownToggle.addEventListener('click', function(e) {
-                // Only activate on mobile (nav-menu is active)
-                if (window.innerWidth <= 992 || navMenu.classList.contains('active')) {
+                // Prevent default link behavior if on mobile and nav menu is active
+                if (window.innerWidth <= 992 && navMenu.classList.contains('active')) {
                     e.preventDefault();
                     dropdownMenu.classList.toggle('open');
                 }
+                // For desktop, allow default behavior (CSS handles hover)
             });
-            // Close dropdown when any dropdown link is clicked (for better UX)
+            
+            // Close dropdown when any dropdown link is clicked (mobile)
             dropdownMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
-                    dropdownMenu.classList.remove('open');
+                    // Only close if the mobile menu is active
+                    if (navMenu.classList.contains('active')) {
+                        dropdownMenu.classList.remove('open');
+                        navMenu.classList.remove('active'); // Close main nav menu too
+                        navToggle.textContent = '☰';
+                        document.body.style.overflow = '';
+                    }
                 });
-            });
-        }
-        // Close dropdown when nav menu is closed (mobile)
-        if (navToggle && navMenu && dropdownMenu) {
-            navToggle.addEventListener('click', () => {
-                if (!navMenu.classList.contains('active')) {
-                    dropdownMenu.classList.remove('open');
-                }
             });
         }
     });
